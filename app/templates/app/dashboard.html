@@ -1,0 +1,252 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="page-header">
+            <div>
+                <h1 class="display-5">Dashboard</h1>
+                <p class="lead mb-0">
+                    Vue d'ensemble de la gestion des étudiants et promotions
+                    avec statistiques et informations récentes.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistiques principales -->
+<div class="row g-4 mb-5">
+
+    <!-- Total étudiants -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="{% url 'etudiant_list' %}"
+           class="card border-primary shadow-sm text-decoration-none h-100 d-block">
+            <div class="card-body text-center">
+                <div class="display-4 text-primary mb-2">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h3 class="card-title text-dark">{{ total_etudiants }}</h3>
+                <p class="card-text text-muted">Total Étudiants</p>
+                <small class="text-primary">Voir la liste</small>
+            </div>
+        </a>
+    </div>
+
+    <!-- Promotions -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="{% url 'promotion_list' %}"
+           class="card border-success shadow-sm text-decoration-none h-100 d-block">
+            <div class="card-body text-center">
+                <div class="display-4 text-success mb-2">
+                    <i class="bi bi-mortarboard"></i>
+                </div>
+                <h3 class="card-title text-dark">{{ total_promotions }}</h3>
+                <p class="card-text text-muted">Promotions</p>
+                <small class="text-success">Voir les promotions</small>
+            </div>
+        </a>
+    </div>
+
+    <!-- Étudiants actifs -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="{% url 'etudiant_list' %}?statut=actif"
+           class="card border-info shadow-sm text-decoration-none h-100 d-block">
+            <div class="card-body text-center">
+                <div class="display-4 text-info mb-2">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <h3 class="card-title text-dark">{{ etudiants_actifs }}</h3>
+                <p class="card-text text-muted">Étudiants Actifs</p>
+                <small class="text-info">Voir les étudiants</small>
+            </div>
+        </a>
+    </div>
+
+    <!-- Étudiants inactifs -->
+    <div class="col-12 col-sm-6 col-lg-3">
+        <a href="{% url 'etudiant_list' %}?statut=inactif"
+           class="card border-danger shadow-sm text-decoration-none h-100 d-block">
+            <div class="card-body text-center">
+                <div class="display-4 text-danger mb-2">
+                    <i class="bi bi-person-x"></i>
+                </div>
+                <h3 class="card-title text-dark">{{ etudiants_inactifs }}</h3>
+                <p class="card-text text-muted">Étudiants Inactifs</p>
+                <small class="text-danger">Voir les étudiants</small>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<!-- Actions rapides -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="card-title mb-4">
+                    <i class="bi bi-rocket-takeoff me-2"></i>
+                    Actions Rapides
+                </h5>
+
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+
+                    <a href="{% url 'etudiant_create' %}"
+                       class="btn btn-primary btn-lg">
+                        <i class="bi bi-person-plus me-2"></i>
+                        Nouvel Étudiant
+                    </a>
+
+                    <a href="{% url 'promotion_create' %}"
+                       class="btn btn-success btn-lg">
+                        <i class="bi bi-plus-circle me-2"></i>
+                        Nouvelle Promotion
+                    </a>
+
+                    <a href="{% url 'etudiant_list' %}"
+                       class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-list me-2"></i>
+                        Gérer Étudiants
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Promotions -->
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-bar-chart me-2"></i>
+                    Répartition par Promotion
+                </h5>
+            </div>
+
+            <div class="card-body">
+                {% if promotions_stats %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>NOM</th>
+                                    <th>DESCRIPTION</th>
+                                    <th class="text-center">Nombre Étudiants</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for promotion in promotions_stats %}
+                                    <tr>
+                                        <td><strong>{{ promotion.nom }}</strong></td>
+                                        <td>{{ promotion.description }}</td>
+
+                                        <td class="text-center">
+                                            <span class="badge bg-primary fs-6">
+                                                {{ promotion.nombre_etudiants }}
+                                            </span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <a href="{% url 'promotion_detail' promotion.pk %}"
+                                               class="btn btn-sm btn-outline-secondary">
+                                                <i class="bi bi-eye me-1"></i>
+                                                Voir
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                {% else %}
+                    <div class="text-center py-4">
+                        <p class="text-muted mt-2">
+                            Aucune promotion créée
+                        </p>
+
+                        <a href="{% url 'promotion_create' %}"
+                           class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            Créer une promotion
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Derniers étudiants -->
+<div class="row g-4 mt-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    Derniers étudiants ajoutés
+                </h5>
+            </div>
+
+            <div class="card-body p-0">
+                {% if etudiants_recents %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Matricule</th>
+                                    <th>Nom complet</th>
+                                    <th>Promotion</th>
+                                    <th>Téléphone</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for etudiant in etudiants_recents %}
+                                    <tr>
+                                        <td>{{ etudiant.matricule }}</td>
+
+                                        <td>
+                                            {{ etudiant.nom }}
+                                            {{ etudiant.postnom }}
+                                            {{ etudiant.prenom }}
+                                        </td>
+
+                                        <td>{{ etudiant.promotion.nom }}</td>
+
+                                        <td>{{ etudiant.telephone }}</td>
+
+                                        <td class="text-end">
+                                            <a href="{% url 'etudiant_detail' etudiant.pk %}"
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-eye me-1"></i>
+                                                Voir
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                {% else %}
+                    <div class="p-4 text-center text-muted">
+                        Aucun étudiant récent à afficher.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

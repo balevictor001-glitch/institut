@@ -1,0 +1,46 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Supprimer l'étudiant{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+
+        <div class="card shadow-sm border-danger">
+
+            <div class="card-body">
+
+                <h1 class="card-title">
+                    Supprimer l'étudiant
+                </h1>
+
+                <p class="lead">
+                    Êtes-vous sûr de vouloir supprimer l’étudiant
+                    <strong>{{ object.code }}</strong> ?
+                </p>
+
+                <p class="text-muted">
+                    Cette action est irréversible.
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Oui, supprimer
+                    </button>
+
+                    <a class="btn btn-secondary"
+                       href="{% url 'etudiant_detail' object.pk %}">
+                        <i class="bi bi-x-circle me-1"></i>Annuler
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+<!-- promotion_form.html -->
+
+{% extends 'app/base.html' %}
+
+{% block title %}
+{% if form.instance.pk %}
+Modifier la promotion
+{% else %}
+Ajouter une promotion
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h1 class="card-title mb-4">
+                    {% if form.instance.pk %}
+                        Modifier la promotion
+                    {% else %}
+                        Nouvelle promotion
+                    {% endif %}
+                </h1>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        {{ form.nom.label_tag }}
+                        {{ form.nom }}
+                        {{ form.nom.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.description.label_tag }}
+                        {{ form.description }}
+                        {{ form.description.errors }}
+                    </div>
+
+                    <button class="btn btn-success">
+                        <i class="bi bi-check-circle me-1"></i>
+                        Enregistrer
+                    </button>
+
+                    <a class="btn btn-secondary"
+                       href="{% url 'promotion_list' %}">
+                        <i class="bi bi-x-circle me-1"></i>
+                        Annuler
+                    </a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Supprimer {{ object.nom }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-6">
+
+        <div class="card shadow-sm border-danger">
+
+            <div class="card-body">
+
+                <h1 class="card-title h3 mb-3">
+                    Supprimer la promotion
+                </h1>
+
+                <p>
+                    Voulez-vous vraiment supprimer la promotion
+                    <strong>{{ object.nom }}</strong> ?
+                </p>
+
+                <p class="text-muted">
+                    Tous les étudiants liés à cette promotion seront également supprimés.
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <button class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Confirmer la suppression
+                    </button>
+
+                    <a class="btn btn-secondary"
+                       href="{% url 'promotion_detail' object.pk %}">
+                        <i class="bi bi-x-circle me-1"></i>Annuler
+                    </a>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

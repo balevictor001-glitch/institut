@@ -1,0 +1,141 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+{% if form.instance.pk %}
+Modifier l'étudiant
+{% else %}
+Ajouter un étudiant
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h1 class="card-title mb-4">
+                    {% if form.instance.pk %}
+                        Modifier l'étudiant
+                    {% else %}
+                        Nouvel étudiant
+                    {% endif %}
+                </h1>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {{ form.non_field_errors }}
+
+                    <!-- MATRICULE -->
+                    <div class="mb-3">
+                        {{ form.matricule.label_tag }}
+                        {{ form.matricule }}
+                        {{ form.matricule.errors }}
+                    </div>
+
+                    <!-- NOM -->
+                    <div class="mb-3">
+                        {{ form.nom.label_tag }}
+                        {{ form.nom }}
+                        {{ form.nom.errors }}
+                    </div>
+
+                    <!-- POSTNOM -->
+                    <div class="mb-3">
+                        {{ form.postnom.label_tag }}
+                        {{ form.postnom }}
+                        {{ form.postnom.errors }}
+                    </div>
+
+                    <!-- PRENOM -->
+                    <div class="mb-3">
+                        {{ form.prenom.label_tag }}
+                        {{ form.prenom }}
+                        {{ form.prenom.errors }}
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.sexe.label_tag }}
+                                {{ form.sexe }}
+                                {{ form.sexe.errors }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.date_naissance.label_tag }}
+                                {{ form.date_naissance }}
+                                {{ form.date_naissance.errors }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- PROMOTION -->
+                    <div class="mb-3">
+                        {{ form.promotion.label_tag }}
+                        {{ form.promotion }}
+                        {{ form.promotion.errors }}
+                    </div>
+
+                    <!-- CONTACT -->
+                    <div class="mb-3">
+                        {{ form.telephone.label_tag }}
+                        {{ form.telephone }}
+                        {{ form.telephone.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+
+                    <!-- ADRESSE -->
+                    <div class="mb-3">
+                        {{ form.adresse.label_tag }}
+                        {{ form.adresse }}
+                        {{ form.adresse.errors }}
+                    </div>
+
+                    <!-- PHOTO -->
+                    <div class="mb-3">
+                        {{ form.photo.label_tag }}
+                        {{ form.photo }}
+                        {{ form.photo.errors }}
+                    </div>
+
+                    <!-- ACTIF -->
+                    <div class="form-check mb-4">
+                        {{ form.actif }}
+                        {{ form.actif.label_tag }}
+                        {{ form.actif.errors }}
+                    </div>
+
+                    <!-- BOUTONS -->
+                    <button class="btn btn-success">
+                        <i class="bi bi-check-circle me-1"></i>
+                        Enregistrer
+                    </button>
+
+                    <a class="btn btn-secondary"
+                       href="{% url 'etudiant_list' %}">
+                        <i class="bi bi-x-circle me-1"></i>
+                        Annuler
+                    </a>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'app/base.html' %}
+
+{% block title %}{{ etudiant.nom }} {{ etudiant.postnom }}{% endblock %}
+
+{% block content %}
+
+<div class="row g-4">
+
+    <!-- PHOTO + INFOS -->
+    <div class="col-12 col-lg-6">
+
+        <div class="card shadow-sm">
+
+            {% if etudiant.photo %}
+                <img src="{{ etudiant.photo.url }}"
+                     class="card-img-top"
+                     alt="{{ etudiant.nom }}">
+            {% endif %}
+
+            <div class="card-body">
+
+                <h2 class="card-title">
+                    {{ etudiant.nom }}
+                    {{ etudiant.postnom }}
+                    {{ etudiant.prenom }}
+                </h2>
+
+                <p class="text-muted mb-2">
+                    <strong>Matricule :</strong> {{ etudiant.matricule }}
+                </p>
+
+                <p class="text-muted mb-2">
+                    <strong>Promotion :</strong>
+                    {{ etudiant.promotion.nom }}
+                </p>
+
+
+                <ul class="list-group list-group-flush mt-4">
+
+                    <li class="list-group-item">
+                        <strong>Sexe :</strong> {{ etudiant.sexe }}
+                    </li>
+
+                    <li class="list-group-item">
+                        <strong>Date de naissance :</strong>
+                        {{ etudiant.date_naissance }}
+                    </li>
+
+                    <li class="list-group-item">
+                        <strong>Adresse :</strong>
+                        {{ etudiant.adresse }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Statut :</strong>
+                        {{ etudiant.actif|yesno:"Actif,Inactif" }}
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="col-12 col-lg-6">
+
+        <div class="d-flex gap-2 mb-3">
+
+            <a class="btn btn-primary"
+               href="{% url 'etudiant_update' etudiant.pk %}">
+                <i class="bi bi-pencil-square me-1"></i>
+                Modifier
+            </a>
+
+            <a class="btn btn-danger"
+               href="{% url 'etudiant_delete' etudiant.pk %}">
+                <i class="bi bi-trash me-1"></i>
+                Supprimer
+            </a>
+
+            <a class="btn btn-outline-secondary"
+               href="{% url 'etudiant_list' %}">
+                <i class="bi bi-arrow-left me-1"></i>
+                Retour
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
